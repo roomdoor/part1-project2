@@ -11,8 +11,9 @@ public class Practice3 {
         int x = left[0] - right[0];
         int num = right[1] - left[1];
 
-        System.out.println(Arrays.toString(left));
-        System.out.println(Arrays.toString(right));
+//        System.out.println(Arrays.toString(left));
+//        System.out.println(Arrays.toString(right));
+
         if (x == 0) {
             return "Infinite solutions";
         } else if (num == 0) {
@@ -42,7 +43,7 @@ public class Practice3 {
 
                 case 'x':
                     if (beforeNum != 1) {
-
+                        result[1] -= beforeNum;
                     }
                     result[0] += isMinus ? -1 * beforeNum : beforeNum;
                     isMinus = false;
@@ -69,6 +70,7 @@ public class Practice3 {
         // Test code
         String equation = "x+5-3+x=6+x-2";
         System.out.println(solution(equation));
+
 
         equation = "x=x";
         System.out.println(solution(equation));
