@@ -73,6 +73,7 @@ public class Practice3 {
         equation = "x=x";
         System.out.println(solution(equation));
 
+
         equation = "2x=x";
         System.out.println(solution(equation));
     }
