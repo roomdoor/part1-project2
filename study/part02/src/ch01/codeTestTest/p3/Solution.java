@@ -9,8 +9,6 @@ public class Solution {
             n /= 10;
         }
 
-
         return answer;
     }
-
 }
