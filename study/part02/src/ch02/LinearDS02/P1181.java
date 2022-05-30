@@ -46,6 +46,8 @@ public class P1181 {
         sb.append(arr[n - 1]);
 
         System.out.println(sb.toString());
+
+
     }
 }
 
