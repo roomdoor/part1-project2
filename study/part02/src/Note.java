@@ -1,5 +1,8 @@
 import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
 import java.util.function.IntFunction;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Note {
@@ -20,9 +23,10 @@ public class Note {
                 .flatMapToInt(Arrays::stream)
                 .toArray();
 
-        Integer[] arr = Arrays.stream(a).boxed().toArray(Integer[]::new);
+        Integer[] arrInteger = Arrays.stream(a).boxed().toArray(Integer[]::new);
+        List<Integer> arrList = Arrays.stream(a).boxed().collect(Collectors.toList());
+        Set<Integer> arrSet = Arrays.stream(a).boxed().collect(Collectors.toSet());
 
-        System.out.println(Arrays.toString(arr));
         System.out.println(Arrays.toString(flatArray));
         System.out.println(Arrays.toString(flatArray1));
     }
