@@ -1,5 +1,8 @@
 package ch03.codingTest4.p1;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -8,7 +11,7 @@ import java.util.Arrays;
 // Trie : 생성 복잡도 + 탐색 복잡도 = O(MN) + O(MN)
 // statsWith : 탐색 복잡도 = O(N^4)????
 public class Solution {
-    public static String[][] solution(String[] titles, String[] lyrics, String[] problems) {
+    public String[][] solution(String[] titles, String[] lyrics, String[] problems) {
         String[][] answer = new String[problems.length][];          // 정답을 출력할 String[][] 배열
         ArrayList<String> line;                                     // 정답을 받을 배열(정답의 갯수를 알 수 없어서 Array 보단 List로 구현)
 
@@ -19,18 +22,68 @@ public class Solution {
                     line.add(titles[j]);                            // 일치한다면 정답 배열에 추가
                 }
             }
-            String[] ArrayLine = line.toArray(new String[line.size()]); // 정답을 담은 임의 배열인 line 을 answer 에 추가
+            String[] ArrayLine = line.toArray(new String[0]); // 정답을 담은 임의 배열인 line 을 answer 에 추가
             answer[i] = ArrayLine;
         }
 
         return answer;
     }
 
-    public static void main(String[] args) {
-        String[] a = {"아모르파티", "아기상어", "올챙이와개구리", "산다는건"};
-        String[] b = {"산다는게다그런거지누구나빈손으로와...(후략)", "아기상어뚜루루뚜루귀여운뚜루루뚜루...(후략)", "개울가에올챙이한마리꼬물꼬물헤엄치다...(후략)", "산다는건다그런거래요힘들고아픈날도많지만...(후략)"};
-        String[] c = {"산다", "아기상어", "올챙이"};
-        System.out.println(Arrays.toString(Arrays.stream(solution(a, b, c)).toArray()));
+    public static void testCase(String tc, String[][] cc) {
+        int caseCount = 0;
+        boolean in = false;
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < tc.length(); i++) {
+            if (tc.charAt(i) == '[') {
+                sb = new StringBuilder();
+                in = false;
+            } else if (tc.charAt(i) == ']') {
+                in = true;
+                cc[caseCount] = sb.toString().split(" ");
+                caseCount++;
+            } else if (!(tc.charAt(i) == ',' && in || tc.charAt(i) == '"' || tc.charAt(i) == ',')) {
+                sb.append(tc.charAt(i));
+            }
+        }
+    }
+
+    public static void main(String[] args) throws IOException {
+        Solution sol = new Solution();
+        String[] a = {};
+        String[] b = {};
+        String[] c = {};
+
+        BufferedReader br = new BufferedReader(new FileReader("/Users/isihwa/workspace/zerobase/강의자료/0616/tc/problem1/eff_test/5_i.txt"));
+        String str;
+        StringBuilder sb = new StringBuilder();
+        while ((str = br.readLine()) != null) {
+            sb.append(str);
+        }
+        String t = sb.toString();
+
+        br = new BufferedReader(new FileReader("/Users/isihwa/workspace/zerobase/강의자료/0616/tc/problem1/eff_test/5_o.txt"));
+        sb = new StringBuilder();
+        while ((str = br.readLine()) != null) {
+            sb.append(str);
+        }
+        String r = sb.toString();
+
+        String[][] cc = new String[][]{a, b, c};
+        testCase(t, cc);
+
+        String[][] rr = new String[cc[2].length][];
+        testCase(r, rr);
+
+        long bt = System.currentTimeMillis();
+        String[][] cul = sol.solution(cc[0], cc[1], cc[2]);
+        long at = System.currentTimeMillis();
+        System.out.println("startWith 를 활용한 solution 메소드 걸린 시간 = " + (at - bt));
+
+        if (Arrays.deepEquals(rr, cul)) {
+            System.out.println("OK");
+        } else {
+            System.out.println("NO");
+        }
     }
 
 }
