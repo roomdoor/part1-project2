@@ -103,8 +103,11 @@ class Trie {
         String[] lyrics = {};
         String[] problems = {};
 
+        String testCaseNumber = "4";
+        String testType = false ? "acc" : "eff";
+
         // test case 5_i.txt 파일을 읽어서 String t에 넣는 부분
-        BufferedReader br = new BufferedReader(new FileReader("/Users/isihwa/workspace/zerobase/강의자료/0616/tc/problem1/eff_test/5_i.txt"));
+        BufferedReader br = new BufferedReader(new FileReader("/Users/isihwa/workspace/zerobase/강의자료/0616/tc/problem1/" + testType + "_test/" + testCaseNumber + "_i.txt"));
         String str;
         StringBuilder sb = new StringBuilder();
         while ((str = br.readLine()) != null) {
@@ -112,21 +115,21 @@ class Trie {
         }
         String t = sb.toString();
 
-        // test case 5_o.txt 파일을 읽어서 String r에 넣는 부분 ( 5_o.txt 파일의 맨 처음과 맨 끝의 '[', ']' 를 없앤 수정파일)
-        br = new BufferedReader(new FileReader("/Users/isihwa/workspace/zerobase/강의자료/0616/tc/problem1/eff_test/5_o.txt"));
+        // test case 5_o.txt 파일을 읽어서 String r에 넣는 부분
+        br = new BufferedReader(new FileReader("/Users/isihwa/workspace/zerobase/강의자료/0616/tc/problem1/" + testType + "_test/" + testCaseNumber + "_o.txt"));
         sb = new StringBuilder();
         while ((str = br.readLine()) != null) {
             sb.append(str);
         }
         String r = sb.toString();
+        r = r.substring(1, r.length() - 1);
 
         // testCaseArray = {titles, lyrics, problems}
         String[][] testCaseArray = new String[][]{titles, lyrics, problems};
-
         makeTestCase(t, testCaseArray); // String t (5_i.txt) 를 int[][] testCaseArray 배열에 title, lyrics, problems 배열에 넣어주는 메소드
 
         String[][] answerArray = new String[testCaseArray[2].length][];
-        makeTestCase(r, answerArray); // String r (5_o.txt) 를 int[][] answerArray 배열에 넣어주는 메소드 ()
+        makeTestCase(r, answerArray); // String r (5_o.txt) 를 int[][] answerArray 배열에 넣어주는 메소드
 
         long bt = System.currentTimeMillis();
         String[][] cul = sol.solutionStartWith(testCaseArray[0], testCaseArray[1], testCaseArray[2]); // testCaseArray = {titles, lyrics, problems}
