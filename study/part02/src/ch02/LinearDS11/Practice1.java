@@ -8,7 +8,6 @@ package ch02.LinearDS11;// Practice1
 // 출력 데이터: 1 -> 5 -> 2 -> 4 -> 3
 
 
-import com.sun.jmx.remote.internal.ArrayQueue;
 
 import java.util.ArrayDeque;
 import java.util.Arrays;
