@@ -29,7 +29,7 @@ public class Main {
                 } else {
                     tmp[idx++] = arr[q++];
                 }
-            } else if (p <= mid && q > right) {
+            } else if (p <= mid) {
                 tmp[idx++] = arr[p++];
             } else {
                 tmp[idx++] = arr[q++];
