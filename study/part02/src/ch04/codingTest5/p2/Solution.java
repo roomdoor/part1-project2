@@ -2,20 +2,22 @@ package ch04.codingTest5.p2;
 
 import java.util.Arrays;
 
+// 합병 정렬을 조금만 변환하면 가능
+// 사전적 순서로 정렬을 위해 String[] 배열 필요
+// String 비교 메소드 compareTo 사용
 public class Solution {
     public static String solution(int[] numbers) {
         StringBuilder answer = new StringBuilder();
-        String[] arr = new String[numbers.length];
-        String[] tmp = new String[numbers.length];
+        String[] arr = new String[numbers.length];      // numbers 배열을 String[] 배열로 저장하는 곳
+        String[] tmp = new String[numbers.length];      // merge sort 시 필요한 새로운 배열
 
-        for (int i = 0; i < arr.length; i++) {
+        for (int i = 0; i < arr.length; i++) {          // numbers 배열 String[] 배열에 넣어줌
             arr[i] = String.valueOf(numbers[i]);
         }
 
-        mergeSort(arr, tmp, 0, numbers.length - 1);
-        System.out.println(Arrays.toString(tmp));
+        mergeSort(arr, tmp, 0, numbers.length - 1); // merge sort 는 강의에서 배운 코드 그대로 사용
 
-        for (String s : tmp) {
+        for (String s : tmp) {                          // tmp 에 정렬된 순서대로 정답에 추가
             answer.append(s);
         }
 
@@ -38,9 +40,9 @@ public class Solution {
 
         while (p <= mid || q <= right) {
             if (p <= mid && q <= right) {
-                String a = arr[p] + arr[q];
-                String b = arr[q] + arr[p];
-                if (a.compareTo(b) > 0) {
+                String a = arr[p] + arr[q];             // 바뀐 부분
+                String b = arr[q] + arr[p];             // 두개의 인자를 합치는 순서만 바꿔서 누가 더 사전적 정렬이 앞서는지 판단하기 위함
+                if (a.compareTo(b) > 0) {               // compareTo a 가 더 앞쪽이면 양수, a가 더 뒤면 음수 , 같으면 0 반환
                     tmp[idx++] = arr[p++];
                 } else {
                     tmp[idx++] = arr[q++];
