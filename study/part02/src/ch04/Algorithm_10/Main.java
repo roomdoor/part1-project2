@@ -5,8 +5,8 @@ public class Main {
     public static int getMax(int[] arr, int left, int right) {
         int mid = (left + right) / 2;
 
-        if (right - left <= 2) {
-            return Math.max(arr[left], arr[right]);
+        if (right == left) {
+            return arr[left];
         }
 
         int leftMax = getMax(arr, left, mid);
