@@ -1,138 +1,73 @@
 package ch04.codingTest7.p3;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.List;
 
 public class Solution {
-    public static int solution(String[] ingredients, String[] items) {
-        if (ingredients.length == items.length) {
-            return items.length;
+    public static String[] solution(String s) {
+        List<String> answer = new ArrayList<>();
+        StringBuilder sb;
+
+        List<int[]> list = divider(s);
+
+
+        for (int[] dot : list) {
+
+            sb = new StringBuilder();
+            for (int i = 1; i < 4; i++) {
+                String substring = s.substring(dot[i - 1], dot[i]);
+                sb.append(substring).append(".");
+            }
+            sb.append(s.substring(dot[3], s.length()));
+            answer.add(sb.toString());
         }
 
-        int answer = items.length;
+
+        return answer.toArray(new String[0]);
+    }
 
 
-        Set<String> set = Arrays.stream(ingredients).collect(Collectors.toSet());
+    public static List<int[]> divider(String s) {
+        int len = s.length();
 
-        HashMap<String, Integer> map = new HashMap<>();
+        List<int[]> dotList = new ArrayList<>();
 
-        int start = 0;
-        int end = 1;
-        map.put(items[start], map.getOrDefault(items[start], 0) + 1);
-        map.put(items[end], map.getOrDefault(items[end], 0) + 1);
-
-        while (start < end) {
-
-
-            if (map.keySet().containsAll(set)) {
-                answer = Math.min(answer, end - start);
-                if (map.get(items[start]) == 1) {
-                    map.remove(items[start]);
-                } else {
-                    map.put(items[start], map.get(items[start]) - 1);
-                }
-                start++;
-            } else {
-                if (end < items.length - 1) {
-                    end++;
-                } else {
+        for (int i = 1; i < 4; i++) {
+            for (int j = i + 1; j < i + 4; j++) {
+                if (len - i < 3 || len - i > 9 || isChecked(0, i, s)) {
                     break;
                 }
-                map.put(items[end], map.getOrDefault(items[end], 0) + 1);
-            }
 
+                for (int k = j + 1; k < j + 4; k++) {
+                    if (len - j < 2 || len - j > 6 || isChecked(i, j, s)) {
+                        break;
+                    }
 
-        }
-
-        return answer + 1;
-    }
-
-    public static int answerReader(int problemNum, int accOrEff, int tcNum) throws IOException {
-        int answer = 0;
-        String acOrEc = accOrEff == 0 ? "/acc_test" : "/eff_test";
-        String fileName = "/Users/isihwa/workspace/zerobase/강의자료/코테_답안/0630/테스트케이스/problem"
-                + problemNum
-                + acOrEc
-                + "/" + tcNum + "_o.txt";
-
-
-        FileReader fileReader = new FileReader(fileName);
-        int a;
-        while ((a = fileReader.read()) != -1) {
-            answer *= 10;
-            answer += a - '0';
-        }
-
-        return answer;
-
-    }
-
-    public static String[][] testCaseReader(int problemNum, int accOrEff, int tcNum) throws IOException {
-        String[][] result = new String[2][];
-
-        String[] a = new String[]{};
-        String[] b = new String[]{};
-
-
-        String acOrEc = accOrEff == 0 ? "/acc_test" : "/eff_test";
-        String fileName = "/Users/isihwa/workspace/zerobase/강의자료/코테_답안/0630/테스트케이스/problem"
-                + problemNum
-                + acOrEc
-                + "/" + tcNum + "_i.txt";
-
-        BufferedReader br = new BufferedReader(new FileReader(fileName));
-        String str;
-        StringBuilder sb = new StringBuilder();
-        while ((str = br.readLine()) != null) {
-            sb.append(str);
-        }
-
-        StringBuilder sb1 = new StringBuilder();
-        boolean in = false;
-        int k = 0;
-        for (int i = 0; i < sb.length(); i++) {
-            if (sb.charAt(i) == '[') {
-                sb1 = new StringBuilder();
-                in = true;
-            } else if (sb.charAt(i) == ']') {
-                in = false;
-                result[k++] = sb1.toString().split(" ");
-            } else if (sb.charAt(i) == ',') {
-
-            } else if (in) {
-                sb1.append(sb.charAt(i));
+                    if (!(len - k > 3 || len <= k || isChecked(j, k, s) || isChecked(k, s.length(), s))) {
+                        dotList.add(new int[]{0, i, j, k});
+                    }
+                }
             }
         }
 
-
-        return result;
+        return dotList;
     }
 
-    public static void main(String[] args) throws IOException {
-        String[] a = new String[]{"우유", "시리얼", "우유", "우유"};
-        String[] b = new String[]{"우유", "물", "위스키", "막걸리", "소주", "김치냉장고", "시리얼"};
+    public static boolean isChecked(int start, int end, String s) {
 
-        System.out.println(solution(a, b));
+        String substring = s.substring(start, end);
+        boolean result1 = (substring.length() > 1 && substring.startsWith("0"));
+        boolean result2 = (Integer.parseInt(substring) > 255);
 
+        return result1 || result2;
+    }
 
-        for (int i = 0; i < 2; i++) {
-            for (int j = 1; j <= 5; j++) {
-                String[][] tc = testCaseReader(3, i, j);
-
-                System.out.println(j + " 번" + "풀이 : " + solution(tc[0], tc[1]));
-                System.out.println(j + " 번" + "답안 : " + answerReader(3, i, j) + "\n");
-
-            }
-
-        }
+    public static void main(String[] args) {
+        String a = "130988245";
+        System.out.println(Arrays.toString(solution(a)));
 
 
     }
-
-
 }
+
