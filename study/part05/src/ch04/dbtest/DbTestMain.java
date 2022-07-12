@@ -8,6 +8,7 @@ public class DbTestMain {
         Scanner sc = new Scanner(System.in);
 
         memberService.dbSelect();
+
         String memberType = "email";
         System.out.print("아이디 입력 : ");
         String userId = sc.nextLine();
