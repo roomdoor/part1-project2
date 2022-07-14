@@ -8,9 +8,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
   <head>
-    <title>$Title$</title>
+    <title>project1</title>
   </head>
   <body>
-  $END$
+  <h1><%= "Hello World!" %>
+  </h1>
+  <br/>
+  <a href="http://openapi.seoul.go.kr:8088/716d68435073696837306d42417157/json/TbPublicWifiInfo/1/10/20220301">Hello Servlet</a>
   </body>
 </html>
