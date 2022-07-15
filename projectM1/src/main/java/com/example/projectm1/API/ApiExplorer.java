@@ -1,4 +1,4 @@
-package com.example.projectm1;
+package com.example.projectm1.API;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -18,10 +18,9 @@ public class ApiExplorer {
         conn.setRequestMethod("GET");
         conn.setRequestProperty("Content-type", "application/json");
         conn.setDoOutput(true);
-        System.out.println("Response code: " + conn.getResponseCode()); /* 연결
-자체에 대한 확인이 필요하므로 추가합니다.*/
+        System.out.println("Response code: " + conn.getResponseCode()); /* 연결자체에 대한 확인이 필요하므로 추가합니다.*/
         BufferedReader rd;
-// 서비스코드가 정상이면 200~300사이의 숫자가 나옵니다.
+        // 서비스코드가 정상이면 200~300사이의 숫자가 나옵니다.
         if (conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
             rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
         } else {
