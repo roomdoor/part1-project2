@@ -1,17 +1,30 @@
 package com.example.convpay.dto;
 
 import com.example.convpay.type.ConvenienceType;
+import com.example.convpay.type.PayMethodType;
 
 public class PayCancelRequest {
+    // 결제 종류
+    PayMethodType payMethodType;
+
     // 편의점 종류
     ConvenienceType convenienceType;
 
     // 결제 금액
-    Integer cancelPayAmount;
+    Integer payCancelAmount;
 
-    public PayCancelRequest(ConvenienceType convenienceType, Integer cancelPayAmount) {
+    public PayCancelRequest(PayMethodType payMethodType, ConvenienceType convenienceType, Integer payCancelAmount) {
+        this.payMethodType = payMethodType;
         this.convenienceType = convenienceType;
-        this.cancelPayAmount = cancelPayAmount;
+        this.payCancelAmount = payCancelAmount;
+    }
+
+    public PayMethodType getPayMethodType() {
+        return payMethodType;
+    }
+
+    public void setPayMethodType(PayMethodType payMethodType) {
+        this.payMethodType = payMethodType;
     }
 
     public ConvenienceType getConvenienceType() {
@@ -22,11 +35,11 @@ public class PayCancelRequest {
         this.convenienceType = convenienceType;
     }
 
-    public Integer getCancelPayAmount() {
-        return cancelPayAmount;
+    public Integer getPayCancelAmount() {
+        return payCancelAmount;
     }
 
-    public void setCancelPayAmount(Integer cancelPayAmount) {
-        this.cancelPayAmount = cancelPayAmount;
+    public void setPayCancelAmount(Integer payCancelAmount) {
+        this.payCancelAmount = payCancelAmount;
     }
 }
