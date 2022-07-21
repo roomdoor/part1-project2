@@ -1,0 +1,75 @@
+package com.example.projectm1.db;
+
+import com.example.projectm1.dto.WifiDto;
+import com.example.projectm1.service.WifiDbService;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.Collections;
+import java.util.List;
+
+public class ShowNear20 {
+    public static void main(String[] args) {
+        WifiDbService wifidbService = new WifiDbService();
+
+
+        // 1
+        long before = System.currentTimeMillis();
+
+        List<WifiDto> list = wifidbService.getListForCurDis();
+
+
+        //TODO lat, lnt 받아와서 넣기
+        double lat = 126.97083534068472;
+        double lnt = 37.55515236979944;
+
+        // distance 계산을 위한 데이터 받아오기
+        for (WifiDto dto : list) {
+            dto.setDistance(WifiDto.curDis(lat, lnt,
+                    dto.getLAT(), dto.getLNT()));
+        }
+
+        long after = System.currentTimeMillis();
+        System.out.printf("%.2f" + "초 걸렸습니다.\n", (after - before) / (float) 1000);
+        System.out.println(list.size());
+        System.out.println();
+
+
+
+        // 2
+        before = System.currentTimeMillis();
+
+        // 20개 추리기 위한 정렬
+        Collections.sort(list);
+
+        // 20 개 추린것만 db 에 업데이트
+        String WORK_DTTM = LocalDate.now() + " " + LocalTime.now().withNano(0) + ".0";
+        for (int i = 0; i < 20; i++) {
+            WifiDto wifiDto = list.get(i);
+            wifiDto.setWORK_DTTM(WORK_DTTM);
+            wifidbService.updateDistance(wifiDto);
+        }
+
+        after = System.currentTimeMillis();
+        System.out.printf("%.2f" + "초 걸렸습니다.\n", (after - before) / (float) 1000);
+
+
+
+        // 3
+        before = System.currentTimeMillis();
+
+        // 보여줄 20 개 데이터 가져옴
+        List<WifiDto> listForShow20 = wifidbService.getListForShow20(WORK_DTTM);
+        int k = 0;
+        for (WifiDto w : listForShow20) {
+            System.out.println(k);
+            System.out.println(w.toString());
+            k++;
+        }
+
+        after = System.currentTimeMillis();
+        System.out.printf("%.2f" + "초 걸렸습니다.\n", (after - before) / (float) 1000);
+
+    }
+
+}

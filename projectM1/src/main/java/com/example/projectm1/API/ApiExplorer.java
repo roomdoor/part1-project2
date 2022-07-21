@@ -31,22 +31,22 @@ public class ApiExplorer {
         while ((line = rd.readLine()) != null) {
             sb.append(line);
         }
+
+
         rd.close();
         conn.disconnect();
         System.out.println(sb.toString());
 
         JSONParser parser = new JSONParser();
-        // 2. 문자열을 JSON 형태로 JSONObject 객체에 저장.
-        JSONObject obj = (JSONObject)parser.parse(sb.toString());
-        // 3. 필요한 리스트 데이터 부분만 가져와 JSONArray로 저장.
-        JSONArray dataArr = (JSONArray) obj.get("data");
-        // 4. model에 담아준다.
+        JSONObject obj = (JSONObject) parser.parse(sb.toString());
+        JSONObject tb = (JSONObject) obj.get("TbPublicWifiInfo");
+        JSONArray dataArr = (JSONArray) tb.get("row");
+        System.out.println(dataArr.size());
 
-
-
-//        request.setAttribute("time", new java.util.Date());
-//        RequestDispatcher dispatcher = request.getRequestDispatcher("url");
-//        dispatcher.forward(request, response);
+        for (int i = 0; i < dataArr.size(); i++) {
+            JSONObject jsonObject = (JSONObject) dataArr.get(i);
+            System.out.println(jsonObject.get("X_SWIFI_MAIN_NM"));
+        }
 
 
     }

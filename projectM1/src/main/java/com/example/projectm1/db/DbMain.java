@@ -1,5 +1,7 @@
 package com.example.projectm1.db;
 
+import com.example.projectm1.service.MemberService;
+
 import java.util.Scanner;
 
 public class DbMain {
@@ -15,7 +17,7 @@ public class DbMain {
         System.out.println(m.getMobile_no());
         System.out.println(m.getMarketing_yn());
         System.out.println(m.getRegister_date());
-//        memberService.list();
+        memberService.list();
 
 
         Scanner sc = new Scanner(System.in);

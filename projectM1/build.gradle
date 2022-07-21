@@ -34,7 +34,8 @@ dependencies {
     testCompileOnly 'org.projectlombok:lombok:1.18.24'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.24'
 
-    implementation("org.mariadb.jdbc:mariadb-java-client:3.0.6")
+    implementation('org.mariadb.jdbc:mariadb-java-client:3.0.5')
+    implementation 'com.google.code.gson:gson:2.9.0'
 }
 
 test {

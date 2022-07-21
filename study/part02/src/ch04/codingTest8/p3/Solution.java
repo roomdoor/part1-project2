@@ -1,45 +1,115 @@
 package ch04.codingTest8.p3;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
-import java.util.PriorityQueue;
-
-// 그리디로 알고리즘으로 가장 큰 값부터 선택하면 될 줄 알았는데 전혀 되지 안았습니다.
-// 다시 생각해보니 옛날에 풀었던 계단 올라가기 문제와 비슷한것 같습니다.
-// 계단 문제는 https://www.acmicpc.net/problem/2579 이것 입니다.
 public class Solution {
-    public int solution(int N, int[] rewards) {
+    public static int solution(int N, int[] rewards) {
         int answer = 0;
-        boolean[] isKilled = new boolean[rewards.length]; // 죽인 성을 확인하기위한 배열
+        int[] dp = new int[rewards.length];
 
-        PriorityQueue<int[]> queue = new PriorityQueue<>((x, y) -> y[1] - x[1]); // 보상이 가장 큰 값을 꺼내기 위한 PQ
-        for (int i = 0; i < rewards.length; i++) {                               // PQ 에 모든 성에 대한 정보 입력
-            queue.add(new int[]{i, rewards[i]});
+        // 0 번째 방문
+        dp[0] = rewards[0];
+        dp[1] = 0;
+
+        for (int i = 2; i < dp.length - 1; i++) {
+            dp[i] = Math.max(dp[i - 2] + rewards[i], dp[i - 1]);
         }
+        answer = dp[rewards.length - 2];
 
-        while (!queue.isEmpty()) {                                              // PQ가 빌 떄 까지 시행
-            int[] now = queue.poll();
+        dp[0] = 0;
+        dp[1] = rewards[1];
 
-            if (!isKilled[now[0]]) {                                            // 방문할 수 있는 성인지 확인
-                for (int i = -1; i <= 1; i++) {                                 // 방문 가능하다면 방문 후 주변 성 방문 못하도록 boolean 배열 업데이트
-                    isKilled[circleNum(now[0] + i, rewards.length)] = true;
-                }
-                answer += rewards[now[0]];
-            }
+        for (int i = 2; i < dp.length; i++) {
+            dp[i] = Math.max(dp[i - 2] + rewards[i], dp[i - 1]);
         }
+        answer = Math.max(answer, dp[rewards.length - 1]);
 
         return answer;
     }
 
-    public static int circleNum(int n, int leg) {                               // 원형 배열 숫자 확인하기위한 메소드
-        if (n == -1) {
-            return leg - 1;
+    public static void fileReader(int pNum, int accOrEff, int[] a) throws IOException {
+        String aOrE = accOrEff == 0 ? "acc" : "eff";
+        String address = "/Users/isihwa/workspace/zerobase/강의자료/코테_답안/0714" +
+                "/테스트케이스/problem3/" + aOrE + "_test/" + pNum + "_i.txt";
+
+        StringBuilder sb = new StringBuilder();
+        BufferedReader br = new BufferedReader(new FileReader(address));
+        String line;
+
+        while ((line = br.readLine()) != null) {
+            sb.append(line);
         }
 
-        if (n == leg) {
-            return 0;
+        Integer n = 0;
+        List<Integer> rewardList = new ArrayList<>();
+
+        line = sb.toString();
+        sb = new StringBuilder();
+        boolean start = false;
+
+        for (int i = 0; i < line.length(); i++) {
+            char next = line.charAt(i);
+            switch (next) {
+                case ' ':
+                    break;
+
+                case ',':
+                    if (n == 0) {
+                        n = Integer.parseInt(sb.toString());
+                    }
+
+                    if (start && !sb.toString().equals("")) {
+                        rewardList.add(Integer.valueOf(sb.toString()));
+                    }
+
+                    sb = new StringBuilder();
+                    break;
+
+                case '[':
+                    if (start) {
+                        rewardList = new ArrayList<>();
+                    } else {
+                        start = true;
+                    }
+                    break;
+
+                case ']':
+                    rewardList.add(Integer.valueOf(sb.toString()));
+                    sb = new StringBuilder();
+                    break;
+
+                default:
+                    sb.append(next);
+                    break;
+
+            }
         }
 
-        return n;
+        int[] reward = rewardList.stream().mapToInt(Integer::intValue).toArray();
+        System.out.println(solution(n, reward));
+
+        address = "/Users/isihwa/workspace/zerobase/강의자료/코테_답안/0714" +
+                "/테스트케이스/problem3/" + aOrE + "_test/" + pNum + "_o.txt";
+        br = new BufferedReader(new FileReader(address));
+        line = br.readLine();
+        System.out.println("문제 " + pNum + "번 " + aOrE + " 답지 답 : " + line);
+    }
+
+    public static void main(String[] args) throws IOException {
+        int[] a = new int[]{75, 25, 70, 46, 60, 7, 85, 65, 28, 78};
+//        System.out.println(solution(10, a));
+
+        for (int i = 1; i <= 5; i++) {
+            System.out.print("문제 " + i + "번 acc Test 답 : ");
+            fileReader(i, 0, a);
+            System.out.println();
+
+        }
+
     }
 }
 

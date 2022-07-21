@@ -1,4 +1,6 @@
-package com.example.projectm1.db;
+package com.example.projectm1.service;
+
+import com.example.projectm1.db.Member;
 
 import java.sql.*;
 import java.util.ArrayList;

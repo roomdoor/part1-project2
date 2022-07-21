@@ -1,12 +1,8 @@
 package ch04.codingTest8.p1;
 
+import java.util.Arrays;
 
-// 그리디에서 나왔떤 문제와 비슷했지만 가격이라는 다른 변수가 붙은 문제
-// 그리디처럼 풀면 답이 나오지 않았습니다
-// 시험이 끝나고 나서 생각해보니 냅색 문제 처럼 풀이하면 될것 같습니다
-// 냅색의 배낭의 무개를 시간으로 바꾼다면 비슷하게 풀 수 있을 것 같습니다.
 public class Solution {
-
     private static class Consulting {
         int start;
         int end;
@@ -21,13 +17,26 @@ public class Solution {
 
     public static int solution(int[] start, int[] end, int[] price) {
         int answer = 0;
-        Consulting[] consultings = new Consulting[start.length];
-        for (int i = 0; i < start.length; i++) {
+        int len = start.length;
+        int maxTime = 0;
+        Consulting[] consultings = new Consulting[len];
+        for (int i = 0; i < len; i++) {
             consultings[i] = new Consulting(start[i], end[i], price[i]);
+            maxTime = Math.max(maxTime, end[i]);
+        }
+
+        Arrays.sort(consultings, (x, y) -> x.end - y.end);
+
+        int[] dp = new int[maxTime + 1];
+
+        for (Consulting consulting : consultings) {
+            for (int i = consulting.end; i < dp.length; i++) {
+                dp[i] = Math.max(dp[consulting.start] + consulting.price, dp[i]);
+            }
         }
 
 
-        return answer;
+        return dp[dp.length - 1];
     }
 
     public static void main(String[] args) {
@@ -39,6 +48,6 @@ public class Solution {
         a = new int[]{1, 2, 5, 1, 4, 11};
         b = new int[]{10, 9, 6, 3, 9, 15};
         c = new int[]{50, 20, 50, 20, 80, 40};
-//        System.out.println(solution(a, b, c));
+        System.out.println(solution(a, b, c));
     }
 }
