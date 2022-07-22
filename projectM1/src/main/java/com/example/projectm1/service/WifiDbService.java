@@ -1,9 +1,20 @@
 package com.example.projectm1.service;
 
+import com.example.projectm1.API.GetApiData;
+import com.example.projectm1.dto.WIfiSearchHistoryDto;
 import com.example.projectm1.dto.WifiDto;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.ParseException;
 
+import java.io.IOException;
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class WifiDbService {
@@ -11,6 +22,35 @@ public class WifiDbService {
     private static final String dbUserId = "wifi_project";
     private static final String dbPassword = "wifi1234";
 
+
+    // insert open Api data in DB (WifiInfo)
+    public static int insertInDB() {
+        WifiDbService wifidbService = new WifiDbService();
+
+        int count = 0;
+        JSONArray dataArr = new JSONArray();
+
+        try {
+            dataArr = GetApiData.apiDataGet();
+        } catch (IOException | ParseException e) {
+            e.printStackTrace();
+        }
+
+        for (Object value : dataArr) {
+            JSONObject o = (JSONObject) value;
+            Gson gsonBuilder = new GsonBuilder().create();
+            WifiDto wifiDto = gsonBuilder.fromJson(o.toString(), WifiDto.class);
+            if (wifidbService.findMGR_NO(wifiDto.getX_SWIFI_MGR_NO()) == null) {
+                wifidbService.insert(wifiDto);
+                count++;
+            } else {
+                System.out.println("이미 데이터를 받아 왔습니다.");
+                break;
+            }
+        }
+
+        return count;
+    }
 
     // get list distance 계산을 위한
     public List<WifiDto> getListForCurDis() {
@@ -159,6 +199,46 @@ public class WifiDbService {
         return list;
     }
 
+    // search lat, lnt and give 20 개 sort list
+    // and save WifiSearchHistory
+    public List<WifiDto> searchLocation(double lat, double lnt) {
+        WifiDbService wifiDbService = new WifiDbService();
+        WifiSearchHistoryService wifiSearchHistoryService = new WifiSearchHistoryService();
+        List<WifiDto> list = wifiDbService.getListForCurDis();
+
+        // 1
+        // distance 계산을 위한 데이터 받아오기
+        for (WifiDto dto : list) {
+            dto.setDistance(WifiDto.curDis(lat, lnt,
+                    dto.getLAT(), dto.getLNT()));
+        }
+
+        // 20개 추리기 위한 정렬
+        Collections.sort(list);
+
+        // 2
+        // 20 개 추린것만 db 에 업데이트
+        String WORK_DTTM = LocalDate.now() + " " + LocalTime.now().withNano(0) + ".0";
+        for (int i = 0; i < 20; i++) {
+            WifiDto wifiDto = list.get(i);
+            wifiDto.setWORK_DTTM(WORK_DTTM);
+            wifiDbService.updateDistance(wifiDto);
+        }
+
+        // 3 WifiSearchHistory insert
+
+        wifiSearchHistoryService.insert(WIfiSearchHistoryDto.builder()
+                // 음 어떻게 넣지???
+                .lat(lat)
+                .lnt(lnt)
+                .time(WORK_DTTM)
+                .build());
+
+        // 4
+        // 보여줄 20 개 데이터 가져옴
+        return wifiDbService.getListForShow20(WORK_DTTM);
+    }
+
     // db pk 있는지 확인
     public WifiDto findMGR_NO(String MGR_NO) {
         WifiDto wifiDto = null;
@@ -287,7 +367,6 @@ public class WifiDbService {
             }
         }
     }
-
 
     // distance update
     public void updateDistance(WifiDto wifiDto) {

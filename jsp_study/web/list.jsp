@@ -1,6 +1,7 @@
 <%@ page import="db.MemberService" %>
 <%@ page import="java.util.List" %>
-<%@ page import="db.Member" %><%--
+<%@ page import="db.Member" %>
+<%--
   Created by IntelliJ IDEA.
   User: isihwa
   Date: 2022/07/06

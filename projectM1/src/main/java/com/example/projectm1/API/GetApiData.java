@@ -16,7 +16,6 @@ public class GetApiData {
         JSONObject jsonObject = getJSONParser(1, 1);
         JSONObject TbPublicWifiInfo = (JSONObject) jsonObject.get("TbPublicWifiInfo");
         long totalCount = (long) TbPublicWifiInfo.get("list_total_count");
-        System.out.println("totalCount = " + totalCount);
         JSONArray dataArr = new JSONArray();
 
         for (int i = 0; i < totalCount / 1000; i++) {
@@ -27,7 +26,6 @@ public class GetApiData {
 
         long start = totalCount - totalCount % 1000 + 1;
         addArray(start, totalCount, dataArr);
-//        System.out.println(dataArr.size());
         return dataArr;
     }
 

@@ -1,7 +1,6 @@
 package com.example.projectm1.service;
 
 import com.example.projectm1.dto.WIfiSearchHistoryDto;
-import com.example.projectm1.dto.WifiDto;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -71,12 +70,10 @@ public class WifiSearchHistoryService {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-
         }
 
         return list;
     }
-
 
     // wifi db 에 입력
     public void insert(WIfiSearchHistoryDto wIfiSearchHistoryDto) {
@@ -93,13 +90,12 @@ public class WifiSearchHistoryService {
             connection = DriverManager.getConnection(url, dbUserId, dbPassword);
 
             String sql = "insert into wifiSearchHistory\n" +
-                    "(Id, lat, lnt, time) VALUES (?,?,?,?);";
+                    "(lat, lnt, time) VALUES (?,?,?);";
 
             preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, String.valueOf(wIfiSearchHistoryDto.getId()));
-            preparedStatement.setString(2, String.valueOf(wIfiSearchHistoryDto.getLat()));
-            preparedStatement.setString(3, String.valueOf(wIfiSearchHistoryDto.getLnt()));
-            preparedStatement.setString(4, wIfiSearchHistoryDto.getTime());
+            preparedStatement.setString(1, String.valueOf(wIfiSearchHistoryDto.getLat()));
+            preparedStatement.setString(2, String.valueOf(wIfiSearchHistoryDto.getLnt()));
+            preparedStatement.setString(3, wIfiSearchHistoryDto.getTime());
 
             int affected = preparedStatement.executeUpdate();
 
@@ -126,6 +122,68 @@ public class WifiSearchHistoryService {
                 e.printStackTrace();
             }
         }
+    }
+
+    // find id for delete
+    public int findId(double lat, double lnt) {
+        int id = 0;
+        try {
+            Class.forName("org.mariadb.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet rs = null;
+
+        try {
+            connection = DriverManager.getConnection(url, dbUserId, dbPassword);
+
+            String sql = "select id " +
+                    "from wifiSearchHistory " +
+                    "where lat = ? " +
+                    "and lnt = ?;";
+
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setDouble(1, lat);
+            preparedStatement.setDouble(2, lnt);
+            rs = preparedStatement.executeQuery();
+
+            if (rs.next()) {
+                id = rs.getInt("id");
+            }
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null && !rs.isClosed()) {
+                    rs.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            try {
+                if (preparedStatement != null && !preparedStatement.isClosed()) {
+                    preparedStatement.isClosed();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            try {
+                if (connection != null && !connection.isClosed()) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return id;
     }
 
     // History 삭제
@@ -168,7 +226,6 @@ public class WifiSearchHistoryService {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-
         }
     }
 }

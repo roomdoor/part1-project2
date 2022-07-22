@@ -9,11 +9,9 @@ public class InsertHistory {
 
         double lat = 126.97083534068472;
         double lnt = 37.55515236979944;
-        int id = 0;
         String time = "";
         WIfiSearchHistoryDto wIfiSearchHistoryDto =
                 WIfiSearchHistoryDto.builder()
-                        .Id(id)
                         .lat(lat)
                         .lnt(lnt)
                         .time(time)

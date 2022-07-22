@@ -29,8 +29,8 @@ public class Main {
         int[] distance = new int[v + 1];
         Arrays.fill(distance, INF);
         distance[start] = 0;
-        for (int i = 0; i < v + 1; i++) {
 
+        for (int i = 0; i < v + 1; i++) {
             for (Node cur : graph) {
                 if (distance[cur.to] > distance[cur.from] + cur.weight) {
                     distance[cur.to] = distance[cur.from] + cur.weight;
