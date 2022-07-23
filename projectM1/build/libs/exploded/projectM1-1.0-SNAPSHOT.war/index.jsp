@@ -33,9 +33,17 @@
 <body>
 <%
     WifiDbService wifiDbService = new WifiDbService();
-//    List<WifiDto> wifiDtoList = wifiDbService.searchLocation();
     List<WifiDto> wifiDtoList = new ArrayList<>();
-
+    if (request.getParameter("lat") != null
+            && request.getParameter("lnt") != null
+            && !request.getParameter("lat").equals("")
+            && !request.getParameter("lnt").equals("")) {
+        Double lat = Double.parseDouble(request.getParameter("lat"));
+        Double lnt = Double.parseDouble(request.getParameter("lnt"));
+        wifiDtoList = wifiDbService.searchLocation(
+                Double.parseDouble(request.getParameter("lat")
+                ), Double.parseDouble(request.getParameter("lnt")));
+    }
 %>
 
 <h1>와이파이 정보 구하기</h1>
@@ -43,6 +51,13 @@
     <a href="getHistoryList.jsp" target="_blank"> 위치 히스토리 목록</a> |
     <a href="getApiData.jsp" target="_blank"> Open Api 와이파이 정보 가져오기</a>
 </p>
+<p1>
+    <form method="post" action="searchWifi.jsp">
+        LAT : <input type="text" name="lat">
+        LNT : <input type="text" name="lnt">
+        <input type="submit" value="근처 WIFi 정보 보기">
+    </form>
+</p1>
 
 <table>
     <thead>
@@ -75,8 +90,12 @@
         <td>
             <%=w.getDistance()%>
         </td>
+
         <td>
             <%=w.getX_SWIFI_MGR_NO()%>
+        </td>
+        <td>
+            <%=w.getX_SWIFI_WRDOFC()%>
         </td>
         <td>
             <%=w.getX_SWIFI_MAIN_NM()%>

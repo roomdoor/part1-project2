@@ -1,9 +1,14 @@
 <%@ page import="com.example.projectm1.service.WifiDbService" %>
 <%@ page import="com.example.projectm1.dto.WifiDto" %>
 <%@ page import="java.util.List" %>
-<%@ page import="java.util.ArrayList" %>
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<!DOCTYPE html>
+<%@ page import="java.util.ArrayList" %><%--
+  Created by IntelliJ IDEA.
+  User: isihwa
+  Date: 2022/07/22
+  Time: 6:48 오후
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <title>와이파이 정보 구하</title>
@@ -46,8 +51,13 @@
     }
 %>
 
+
 <h1>와이파이 정보 구하기</h1>
-<p><b><a href="index.jsp" target="_blank"> 홈</a></b> |
+<p><b>
+<form1 method="get" action="index.jsp">
+    <input type="submit" value="홈">
+</form1> |
+    <a href="index.jsp" target="_blank"> 홈</a></b> |
     <a href="getHistoryList.jsp" target="_blank"> 위치 히스토리 목록</a> |
     <a href="getApiData.jsp" target="_blank"> Open Api 와이파이 정보 가져오기</a>
 </p>
@@ -90,7 +100,6 @@
         <td>
             <%=w.getDistance()%>
         </td>
-
         <td>
             <%=w.getX_SWIFI_MGR_NO()%>
         </td>

@@ -32,7 +32,9 @@
             text-align: left;
         }
 
-        tr:nth-child(even) {background-color: #f2f2f2;}
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
     </style>
 </head>
 <body>
@@ -61,8 +63,8 @@
     <tbody>
     <tr>
             <%
-                    for (WIfiSearchHistoryDto w: wIfiSearchHistoryDtoList) {
-                %>
+            for (WIfiSearchHistoryDto w: wIfiSearchHistoryDtoList) {
+        %>
     <tr>
         <td>
             <%=w.getId()%>
@@ -77,8 +79,7 @@
             <%=w.getTime()%>
         </td>
         <td>
-            <a href="<%wifiSearchHistoryService.delete(w.getId());%>"
-               target="_blank"> <button>삭제</button></a>
+            <input type="submit" value="삭제">
         </td>
     </tr>
     <%

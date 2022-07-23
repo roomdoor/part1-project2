@@ -6,7 +6,7 @@ package ch04.codingTest9.p3;
 public class Solution {
     public static int[] parents;    // 유니온 파인드를 위한 부모 배열
 
-    public int solution(int N, int[][] graph, int[] infected) {
+    public static int solution(int N, int[][] graph, int[] infected) {
         int answer = 0;
         parents = new int[N];                           // 배열 초기화
         for (int i = 0; i < N; i++) {                   // 배열 초기화
@@ -33,9 +33,20 @@ public class Solution {
             count[j] = temp;
         }
 
+        boolean[] isChecked = new boolean[N];
+        for (int i = 0; i < infected.length - 1; i++) {
+            for (int j = i + 1; j < infected.length; j++) {
+                if (parents[i] == parents[j]) {
+                    isChecked[i] = true;
+                    isChecked[j] = true;
+                }
+            }
+        }
+
+
         int temp = -1;                              // 가장 큰 그룹에 속하고 번호가 가장 작은 감염된 사람 추출
         for (int j : infected) {
-            if (count[j] > temp) {
+            if (!isChecked[j] && count[j] > temp) {
                 temp = count[j];
                 answer = j;
             }
@@ -63,5 +74,16 @@ public class Solution {
                 parents[y] = x;
             }
         }
+    }
+
+    public static void main(String[] args) {
+        int[][] a = new int[][]{
+                {1, 1, 0, 1},
+                {1, 1, 0, 0},
+                {0, 0, 1, 0},
+                {1, 0, 0, 1}};
+        int[] b = new int[]{1, 2};
+
+        System.out.println(solution(4, a, b));
     }
 }
