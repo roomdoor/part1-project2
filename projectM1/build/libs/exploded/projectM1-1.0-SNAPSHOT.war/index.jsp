@@ -15,7 +15,7 @@
 
         th {
             border: solid 1px #ddd;
-            height: 50px;
+            height: 30px;
             text-align: center;
             background-color: #04AA6D;
             color: white;
@@ -23,38 +23,48 @@
 
         td {
             border: solid 1px #ddd;
-            height: 50px;
+            height: 30px;
             text-align: left;
         }
 
-        /*tr:nth-child(even) {background-color: #f2f2f2;}*/
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        p {
+            text-align: center;
+        }
     </style>
 </head>
 <body>
 <%
     WifiDbService wifiDbService = new WifiDbService();
     List<WifiDto> wifiDtoList = new ArrayList<>();
+    Double lat = 0.0;
+    Double lnt = 0.0;
     if (request.getParameter("lat") != null
             && request.getParameter("lnt") != null
             && !request.getParameter("lat").equals("")
             && !request.getParameter("lnt").equals("")) {
-        Double lat = Double.parseDouble(request.getParameter("lat"));
-        Double lnt = Double.parseDouble(request.getParameter("lnt"));
-        wifiDtoList = wifiDbService.searchLocation(
-                Double.parseDouble(request.getParameter("lat")
-                ), Double.parseDouble(request.getParameter("lnt")));
+        lat = Double.parseDouble(request.getParameter("lat"));
+        lnt = Double.parseDouble(request.getParameter("lnt"));
+        wifiDtoList = wifiDbService.searchLocation(lat, lnt);
     }
 %>
 
 <h1>와이파이 정보 구하기</h1>
-<p><b><a href="index.jsp" target="_blank"> 홈</a></b> |
-    <a href="getHistoryList.jsp" target="_blank"> 위치 히스토리 목록</a> |
-    <a href="getApiData.jsp" target="_blank"> Open Api 와이파이 정보 가져오기</a>
-</p>
+<p1><b>
+    <a href="index.jsp"> 홈</a> |
+    <a href="getHistoryList.jsp"> 위치 히스토리 목록</a> |
+    <a href="getApiData.jsp"> Open Api 와이파이 정보 가져오기</a>
+</b></p1>
+
 <p1>
-    <form method="post" action="searchWifi.jsp">
-        LAT : <input type="text" name="lat">
-        LNT : <input type="text" name="lnt">
+    <form method="post" action="index.jsp">
+        <label for="lat">LAT </label>
+        <input type="text" id="lat" name="lat" value="<%=lat%>">
+        <label for="lnt">LNT </label>
+        <input type="text" id="lnt" name="lnt" value="<%=lnt%>">
         <input type="submit" value="근처 WIFi 정보 보기">
     </form>
 </p1>
@@ -84,8 +94,17 @@
     <tbody>
     <tr>
             <%
-                    for (WifiDto w: wifiDtoList) {
-                %>
+        if (wifiDtoList == null){
+    %>
+    <tr>
+        <td colspan="17">
+            <p>"Open Api 와이파이 정보 가져오기" 를 먼저 실행해 주세요</p>
+        </td>
+    </tr>
+    <%
+    } else if (wifiDtoList.size() != 0) {
+        for (WifiDto w : wifiDtoList) {
+    %>
     <tr>
         <td>
             <%=w.getDistance()%>
@@ -138,6 +157,15 @@
         </td>
         <td>
             <%=w.getWORK_DTTM()%>
+        </td>
+    </tr>
+    <%
+        }
+    } else {
+    %>
+    <tr>
+        <td colspan="17">
+            <p>위치 정보를 검색 후에 조회해 주세요</p>
         </td>
     </tr>
     <%

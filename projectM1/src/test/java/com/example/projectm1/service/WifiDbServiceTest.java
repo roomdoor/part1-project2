@@ -12,18 +12,6 @@ import java.util.List;
 class WifiDbServiceTest {
     WifiDbService wifiDbService = new WifiDbService();
 
-    @DisplayName("1. insert, getList")
-    @Test
-    public void test_1() {
-        for (int i = 0; i < 5; i++) {
-            wifiDbService.insert(WifiDto.builder()
-                    .X_SWIFI_MGR_NO("1")
-                    .build());
-        }
-
-        System.out.println(wifiDbService.getListForCurDis());
-    }
-
     @DisplayName("2. search near 20")
     @Test
     public void test_2() {

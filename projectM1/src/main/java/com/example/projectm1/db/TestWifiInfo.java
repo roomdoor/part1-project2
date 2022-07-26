@@ -17,11 +17,5 @@ public class TestWifiInfo {
             list.get(i).setDistance(i * i);
             wifidbService.updateDistance(list.get(i));
         }
-
-        for (int i = 0; i < 5; i++) {
-            WifiDto mgr_no = wifidbService.findMGR_NO(String.valueOf((i + 1)));
-            System.out.println(mgr_no);
-        }
-
     }
 }

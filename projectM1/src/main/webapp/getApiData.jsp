@@ -18,10 +18,16 @@
 <body>
 <%
     int count = WifiDbService.insertInDB();
+    if (count == 0) {
 %>
-
-
-<h1><%=count%> 개의 WIFI 정보를 정상적으로 저장하였습니다.</h1>
-<p><b><a href="index.jsp" target="_blank"> 홈</a></b></p>
+    <h1>이미 모든 데이터를 저장하였습니다.</h1>
+<%
+} else {
+%>
+    <h1><%=count%> 개의 WIFI 정보를 정상적으로 저장하였습니다.</h1>
+<%
+    }
+%>
+<p><b><a href="index.jsp"> 홈</a></b></p>
 </body>
 </html>

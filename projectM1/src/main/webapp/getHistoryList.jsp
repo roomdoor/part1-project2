@@ -1,7 +1,7 @@
 <%@ page import="com.example.projectm1.service.WifiSearchHistoryService" %>
 <%@ page import="com.example.projectm1.dto.WIfiSearchHistoryDto" %>
 <%@ page import="java.util.List" %>
-<%@ page import="java.util.ArrayList" %><%--
+<%--
   Created by IntelliJ IDEA.
   User: isihwa
   Date: 2022/07/21
@@ -20,7 +20,7 @@
 
         th {
             border: solid 1px #ddd;
-            height: 50px;
+            height: 30px;
             text-align: center;
             background-color: #04AA6D;
             color: white;
@@ -28,26 +28,34 @@
 
         td {
             border: solid 1px #ddd;
-            height: 50px;
+            height: 30px;
             text-align: left;
         }
 
         tr:nth-child(even) {
             background-color: #f2f2f2;
         }
+
+        form {
+            text-align: center;
+        }
     </style>
 </head>
 <body>
 <%
     WifiSearchHistoryService wifiSearchHistoryService = new WifiSearchHistoryService();
+    if (request.getParameter("historyId") != null
+            && !request.getParameter("historyId").equals("")) {
+        int id = Integer.parseInt(request.getParameter("historyId"));
+        wifiSearchHistoryService.delete(id);
+    }
     List<WIfiSearchHistoryDto> wIfiSearchHistoryDtoList = wifiSearchHistoryService.getList();
-
 %>
 
 <h1>위치 히스토리 목록</h1>
-<p><b><a href="index.jsp" target="_blank"> 홈</a></b> |
-    <a href="getHistoryList.jsp" target="_blank"> 위치 히스토리 목록</a> |
-    <a href="getApiData.jsp" target="_blank"> Open Api 와이파이 정보 가져오기</a>
+<p><b><a href="index.jsp"> 홈</a></b> |
+    <a href="getHistoryList.jsp"> 위치 히스토리 목록</a> |
+    <a href="getApiData.jsp"> Open Api 와이파이 정보 가져오기</a>
 </p>
 
 <table>
@@ -79,9 +87,14 @@
             <%=w.getTime()%>
         </td>
         <td>
-            <input type="submit" value="삭제">
+            <form method="post" action="getHistoryList.jsp">
+                <input type="hidden" name="historyId" value="<%=w.getId()%>" readonly>
+                <input type="submit" value=" 삭제 ">
+            </form>
         </td>
     </tr>
+
+
     <%
         }
     %>

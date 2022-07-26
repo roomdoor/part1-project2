@@ -1,15 +1,19 @@
 package com.example.projectm1.service;
 
-import com.example.projectm1.API.GetApiData;
 import com.example.projectm1.dto.WIfiSearchHistoryDto;
 import com.example.projectm1.dto.WifiDto;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -31,24 +35,19 @@ public class WifiDbService {
         JSONArray dataArr = new JSONArray();
 
         try {
-            dataArr = GetApiData.apiDataGet();
+            dataArr = wifidbService.apiDataGet();
         } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
 
-        for (Object value : dataArr) {
-            JSONObject o = (JSONObject) value;
-            Gson gsonBuilder = new GsonBuilder().create();
-            WifiDto wifiDto = gsonBuilder.fromJson(o.toString(), WifiDto.class);
-            if (wifidbService.findMGR_NO(wifiDto.getX_SWIFI_MGR_NO()) == null) {
-                wifidbService.insert(wifiDto);
-                count++;
-            } else {
-                System.out.println("이미 데이터를 받아 왔습니다.");
-                break;
-            }
+        JSONObject o = (JSONObject) dataArr.get(0);
+        if (wifidbService.findMGR_NO(String.valueOf(o.get("X_SWIFI_MGR_NO"))) != null) {
+            return 0;
         }
 
+        for (int i = 0; i <= dataArr.size() / 1000; i++) {
+            count += wifidbService.insert(dataArr, i * 1000);
+        }
         return count;
     }
 
@@ -206,6 +205,10 @@ public class WifiDbService {
         WifiSearchHistoryService wifiSearchHistoryService = new WifiSearchHistoryService();
         List<WifiDto> list = wifiDbService.getListForCurDis();
 
+        if (list.size() == 0) {
+            return null;
+        }
+
         // 1
         // distance 계산을 위한 데이터 받아오기
         for (WifiDto dto : list) {
@@ -300,8 +303,9 @@ public class WifiDbService {
         return wifiDto;
     }
 
-    // wifi db 에 입력
-    public void insert(WifiDto wifiDto) {
+    // wifi db 에 1000개 씩  입력 (입력 시간 줄이려고) / 한번 입력할 때마다 select 이루어져서 그런듯?
+    public int insert(JSONArray dataArray, int start) {
+        int count = 0;
         try {
             Class.forName("org.mariadb.jdbc.Driver");
         } catch (ClassNotFoundException e) {
@@ -315,38 +319,49 @@ public class WifiDbService {
         try {
             connection = DriverManager.getConnection(url, dbUserId, dbPassword);
 
-            String sql = "insert into wifiInfo (" +
+            StringBuilder sql = new StringBuilder();
+            sql.append("insert into wifiInfo (" +
                     "MGR_NO, WRDOFC, MAIN_NM, ADRES1, " +
                     "ADRES2, INSTL_FLOOR, INSTL_TY, INSTL_MBY, " +
                     "SVC_SE, CMCWR, CNSTC_YEAR, INOUT_DOOR, " +
                     "REMARS3, LAT, LNT, WORK_DTTM) " +
-                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+                    "VALUES ");
+            for (int k = 0; k < 1000 && (k + start) < dataArray.size(); k++) {
+                sql.append("(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?), ");
+            }
+            sql.deleteCharAt(sql.length() - 1);
+            sql.deleteCharAt(sql.length() - 1);
+            sql.append(";");
+            preparedStatement = connection.prepareStatement(sql.toString());
 
-            preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, wifiDto.X_SWIFI_MGR_NO);
-            preparedStatement.setString(2, wifiDto.X_SWIFI_WRDOFC);
-            preparedStatement.setString(3, wifiDto.X_SWIFI_MAIN_NM);
-            preparedStatement.setString(4, wifiDto.X_SWIFI_ADRES1);
-            preparedStatement.setString(5, wifiDto.X_SWIFI_ADRES2);
-            preparedStatement.setString(6, wifiDto.X_SWIFI_INSTL_FLOOR);
-            preparedStatement.setString(7, wifiDto.X_SWIFI_INSTL_TY);
-            preparedStatement.setString(8, wifiDto.X_SWIFI_INSTL_MBY);
-            preparedStatement.setString(9, wifiDto.X_SWIFI_SVC_SE);
-            preparedStatement.setString(10, wifiDto.X_SWIFI_CMCWR);
-            preparedStatement.setString(11, wifiDto.X_SWIFI_CNSTC_YEAR);
-            preparedStatement.setString(12, wifiDto.X_SWIFI_INOUT_DOOR);
-            preparedStatement.setString(13, wifiDto.X_SWIFI_REMARS3);
-            preparedStatement.setString(14, wifiDto.LAT);
-            preparedStatement.setString(15, wifiDto.LNT);
-            preparedStatement.setString(16, wifiDto.WORK_DTTM);
+            for (int i = 0; i < 1000 && (i + start) < dataArray.size(); i++) {
+                count++;
+                JSONObject o = (JSONObject) dataArray.get(i + start);
+                Gson gsonBuilder = new GsonBuilder().create();
+                WifiDto wifiDto = gsonBuilder.fromJson(o.toString(), WifiDto.class);
+                int num = (i) * 16;
+                preparedStatement.setString(1 + num, wifiDto.X_SWIFI_MGR_NO);
+                preparedStatement.setString(2 + num, wifiDto.X_SWIFI_WRDOFC);
+                preparedStatement.setString(3 + num, wifiDto.X_SWIFI_MAIN_NM);
+                preparedStatement.setString(4 + num, wifiDto.X_SWIFI_ADRES1);
+                preparedStatement.setString(5 + num, wifiDto.X_SWIFI_ADRES2);
+                preparedStatement.setString(6 + num, wifiDto.X_SWIFI_INSTL_FLOOR);
+                preparedStatement.setString(7 + num, wifiDto.X_SWIFI_INSTL_TY);
+                preparedStatement.setString(8 + num, wifiDto.X_SWIFI_INSTL_MBY);
+                preparedStatement.setString(9 + num, wifiDto.X_SWIFI_SVC_SE);
+                preparedStatement.setString(10 + num, wifiDto.X_SWIFI_CMCWR);
+                preparedStatement.setString(11 + num, wifiDto.X_SWIFI_CNSTC_YEAR);
+                preparedStatement.setString(12 + num, wifiDto.X_SWIFI_INOUT_DOOR);
+                preparedStatement.setString(13 + num, wifiDto.X_SWIFI_REMARS3);
+                preparedStatement.setString(14 + num, wifiDto.LAT);
+                preparedStatement.setString(15 + num, wifiDto.LNT);
+                preparedStatement.setString(16 + num, wifiDto.WORK_DTTM);
+            }
 
             int affected = preparedStatement.executeUpdate();
 
-            if (affected < 0) {
-                System.out.println("저장 실패");
-            }
-
-        } catch (SQLException e) {
+        } catch (
+                SQLException e) {
             e.printStackTrace();
         } finally {
 
@@ -366,6 +381,7 @@ public class WifiDbService {
                 e.printStackTrace();
             }
         }
+        return count;
     }
 
     // distance update
@@ -418,6 +434,47 @@ public class WifiDbService {
         }
     }
 
+    // api data 가져오기 위한 함수 3개
+    // api data 가져오기 위한 함수 아래의 2개 함수를 한번에 넣고 돌리는 함수
+    // @return api 데이터 모두 JSONArray 로 합친 것
+    public JSONArray apiDataGet() throws IOException, ParseException {
+        JSONObject jsonObject = getJSONParser(1, 1);
+        JSONObject TbPublicWifiInfo = (JSONObject) jsonObject.get("TbPublicWifiInfo");
+        long totalCount = (long) TbPublicWifiInfo.get("list_total_count");
+        JSONArray dataArr = new JSONArray();
+
+        for (int i = 0; i < totalCount / 1000; i++) {
+            int start = i * 1000 + 1;
+            int end = (i + 1) * 1000;
+            addArray(start, end, dataArr);
+        }
+
+        long start = totalCount - totalCount % 1000 + 1;
+        addArray(start, totalCount, dataArr);
+        return dataArr;
+    }
+
+    // 받아오는 데이터 index 시작점과 끝점을 정해서 데이터 받아오는 함수
+    // @return dataArr 에 받아온 json 데이터 1000개 합쳐줌
+    public static void addArray(long start, long end, JSONArray dataArr) throws IOException, ParseException {
+        JSONObject jsonObject = getJSONParser(start, end);
+        JSONObject TbPublicWifiInfo = (JSONObject) jsonObject.get("TbPublicWifiInfo");
+        JSONArray temp = (JSONArray) TbPublicWifiInfo.get("row");
+        dataArr.addAll(temp);
+    }
+
+    // 데이터 1000개씩 받을 수 있어서 1000개씩 받는 url 만드는 함수
+    // @return json 으로 된 1000개의 데이터 array
+    public static JSONObject getJSONParser(long start, long end) throws IOException, ParseException {
+        URL url = new URL("http://openapi.seoul.go.kr:8088" +
+                "/624b73765873696832347671705478/json" +
+                "/TbPublicWifiInfo/" + start + "/" + end);
+        BufferedReader bf = new BufferedReader(
+                new InputStreamReader(url.openStream(), StandardCharsets.UTF_8));
+        String result = bf.readLine();
+
+        return (JSONObject) new JSONParser().parse(result);
+    }
 
     // testConnection
     public static void testConnection() {
