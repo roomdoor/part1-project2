@@ -18,4 +18,5 @@ public class TestWifiInfo {
             wifidbService.updateDistance(list.get(i));
         }
     }
+
 }

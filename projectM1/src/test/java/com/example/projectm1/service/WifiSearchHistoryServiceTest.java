@@ -40,5 +40,4 @@ class WifiSearchHistoryServiceTest {
         int id = wifiSearchHistoryService.findId(0, 0);
         wifiSearchHistoryService.delete(id);
     }
-
 }

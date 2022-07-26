@@ -14,4 +14,5 @@ public class WIfiSearchHistoryDto {
     double lat;
     double lnt;
     String time;
+
 }

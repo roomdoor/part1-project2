@@ -39,4 +39,5 @@ public class WifiDto implements Comparable<WifiDto> {
     public int compareTo(WifiDto o) {
         return Double.compare(this.getDistance(), o.getDistance());
     }
+
 }

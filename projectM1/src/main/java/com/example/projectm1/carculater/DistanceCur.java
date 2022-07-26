@@ -33,4 +33,5 @@ public class DistanceCur {
     public static double rad2deg(double rad) {
         return (rad * 180 / Math.PI);
     }
+
 }
