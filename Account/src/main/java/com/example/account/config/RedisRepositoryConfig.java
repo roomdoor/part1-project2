@@ -22,6 +22,7 @@ public class RedisRepositoryConfig {
         Config config = new Config();
         config.useSingleServer().setAddress("redis://" + redisHost + ":" + redisPort);
 
+
         return Redisson.create(config);
     }
 }
