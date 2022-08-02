@@ -1,6 +1,4 @@
-package ch04.codingTest5.p2;
-
-import java.util.Arrays;
+package codiingTest.codingTest5.p2;
 
 // 합병 정렬을 조금만 변환하면 가능
 // 사전적 순서로 정렬을 위해 String[] 배열 필요

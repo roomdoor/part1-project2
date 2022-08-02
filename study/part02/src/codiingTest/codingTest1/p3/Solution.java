@@ -1,4 +1,4 @@
-package ch01.codingTest1.p3;
+package codiingTest.codingTest1.p3;
 
 
 // 이 문제는 N이 1 ~ 6 정도까지 손으로 그려보다가 일정한 규칙이 있어서 간단하게 풀었습니다.

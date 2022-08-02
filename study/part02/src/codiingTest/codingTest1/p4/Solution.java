@@ -1,4 +1,4 @@
-package ch01.codingTest1.p4;
+package codiingTest.codingTest1.p4;
 
 public class Solution {
     public static int solution(int n, int i, int j) {

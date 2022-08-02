@@ -1,4 +1,4 @@
-package ch02.codingTest2.p4;
+package codiingTest.codingTest2.p4;
 
 public class Solution {
     public static int solution(int delay, int capacity, int[] times) {

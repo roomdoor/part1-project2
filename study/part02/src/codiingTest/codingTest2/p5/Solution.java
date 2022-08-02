@@ -1,4 +1,4 @@
-package ch02.codingTest2.p5;
+package codiingTest.codingTest2.p5;
 
 public class Solution {
     public static int[][] solution(int[][] image, int K) {

@@ -1,6 +1,4 @@
-package ch04.codingTest7.p2;
-
-import java.util.HashMap;
+package codiingTest.codingTest7.p2;
 
 public class Solution {
     public int solution(int[] votes) {

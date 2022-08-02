@@ -1,4 +1,4 @@
-package ch04.codingTest5.p1;
+package codiingTest.codingTest5.p1;
 
 // 계수 정렬로 쉽게 풀이 가능
 public class Solution {

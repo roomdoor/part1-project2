@@ -1,4 +1,4 @@
-package ch03.codingTest3.p2;
+package codiingTest.codingTest3.p2;
 
 import java.util.*;
 import java.util.stream.Collectors;

@@ -1,4 +1,4 @@
-package ch04.codingTest10.p3;
+package codiingTest.codingTest10.p3;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.PriorityQueue;
 
 public class Solution {
-    public static List<Integer> answer;
+    public static List<Integer> answer;                     // 정답 배열을 위한 List
 
-    private static class Node implements Comparable<Node> {
+    private static class Node implements Comparable<Node> { //
         int parents;
         Node left;
         Node right;

@@ -1,4 +1,4 @@
-package ch04.codingTest7.p5;
+package codiingTest.codingTest7.p5;
 
 
 import java.io.BufferedReader;

@@ -1,4 +1,4 @@
-package ch03.codingTest3.p5;
+package codiingTest.codingTest3.p5;
 
 import java.util.PriorityQueue;
 

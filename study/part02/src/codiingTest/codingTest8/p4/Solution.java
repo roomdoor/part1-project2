@@ -1,4 +1,4 @@
-package ch04.codingTest8.p4;
+package codiingTest.codingTest8.p4;
 
 // 점수가 거의 얻지 못한 문제 입니다.
 // DP 를 이용하여 풀었습니다.

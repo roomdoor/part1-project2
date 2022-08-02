@@ -1,12 +1,10 @@
-package ch04.codingTest8.p2;
+package codiingTest.codingTest8.p2;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.PriorityQueue;
 
 public class SolutionNew {
     public static int solution(int depth, int n, int[][] blocks) {

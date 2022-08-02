@@ -1,4 +1,4 @@
-package ch02.codingTest2.p2;
+package codiingTest.codingTest2.p2;
 
 import java.util.Stack;
 

@@ -1,4 +1,4 @@
-package ch03.codingTest4.p2;
+package codiingTest.codingTest4.p2;
 
 import java.util.*;
 

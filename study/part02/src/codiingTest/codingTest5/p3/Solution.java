@@ -1,4 +1,4 @@
-package ch04.codingTest5.p3;
+package codiingTest.codingTest5.p3;
 
 // 이분탐색으로 쉽게 가능
 // 일반 for 문으로 풀 수 있지만 시간적으로 많이 걸림

@@ -1,4 +1,4 @@
-package ch03.codingTest4.p4;
+package codiingTest.codingTest4.p4;
 
 import java.util.ArrayList;
 import java.util.Arrays;

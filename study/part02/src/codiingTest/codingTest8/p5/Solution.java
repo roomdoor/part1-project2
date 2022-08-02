@@ -1,4 +1,4 @@
-package ch04.codingTest8.p5;
+package codiingTest.codingTest8.p5;
 
 
 import java.util.ArrayList;

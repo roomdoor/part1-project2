@@ -1,4 +1,4 @@
-package ch04.codingTest9.p3;
+package codiingTest.codingTest9.p3;
 
 // 유니온 파인드로 문제 풀이
 // 감염될 확율이 있는 그룹을 유니온 파인드로 묶음

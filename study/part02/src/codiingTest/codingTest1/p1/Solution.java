@@ -1,4 +1,4 @@
-package ch01.codingTest1.p1;
+package codiingTest.codingTest1.p1;
 // 소수를 구하는 방법인 에라토스테네스의 체 입니다!!
 // https://ko.wikipedia.org/wiki/%EC%97%90%EB%9D%BC%ED%86%A0%EC%8A%A4%ED%85%8C%EB%84%A4%EC%8A%A4%EC%9D%98_%EC%B2%B4
 // 링크 첨부합니다 이거 보시면 이 문제 아주 쉽게 풀 수 있습니다.!!

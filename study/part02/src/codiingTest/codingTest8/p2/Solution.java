@@ -1,4 +1,4 @@
-package ch04.codingTest8.p2;
+package codiingTest.codingTest8.p2;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

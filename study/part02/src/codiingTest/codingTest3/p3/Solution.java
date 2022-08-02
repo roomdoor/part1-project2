@@ -1,4 +1,4 @@
-package ch03.codingTest3.p3;
+package codiingTest.codingTest3.p3;
 
 import java.util.ArrayList;
 

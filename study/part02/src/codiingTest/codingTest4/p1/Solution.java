@@ -1,4 +1,4 @@
-package ch03.codingTest4.p1;
+package codiingTest.codingTest4.p1;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

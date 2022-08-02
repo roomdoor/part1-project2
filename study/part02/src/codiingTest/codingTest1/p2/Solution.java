@@ -1,4 +1,4 @@
-package ch01.codingTest1.p2;
+package codiingTest.codingTest1.p2;
 
 import java.util.Set;
 import java.util.Arrays;

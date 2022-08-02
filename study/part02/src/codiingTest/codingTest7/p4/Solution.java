@@ -1,4 +1,4 @@
-package ch04.codingTest7.p4;
+package codiingTest.codingTest7.p4;
 
 public class Solution {
     public int[] solution(String nums) {

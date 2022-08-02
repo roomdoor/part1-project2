@@ -1,4 +1,4 @@
-package ch04.codingTest7.p1;
+package codiingTest.codingTest7.p1;
 
 
 public class Solution {

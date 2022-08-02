@@ -1,4 +1,4 @@
-package ch02.codingTest2.p3;
+package codiingTest.codingTest2.p3;
 
 public class Solution {
     public static int i = 0;
