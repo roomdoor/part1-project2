@@ -2,14 +2,13 @@ package com.example.account.domain;
 
 import javax.persistence.*;
 
+import com.example.account.exceoption.AccountException;
 import com.example.account.type.AccountStatus;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
 
+import com.example.account.type.ErrorCode;
 import lombok.*;
 
 @Getter
@@ -18,8 +17,7 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 @Entity
-@EntityListeners(AuditingEntityListener.class)
-public class Account {
+public class Account extends BaseEntity {
     @Id
     @GeneratedValue
     private Long id;
@@ -35,9 +33,17 @@ public class Account {
     private LocalDateTime registeredAt;
     private LocalDateTime unRegisteredAt;
 
-    @CreatedDate
-    private LocalDateTime createdAt;
-    @LastModifiedDate
-    private LocalDateTime updatedAt;
+    public void useBalance(Long amount) {
+        if (amount > this.balance) {
+            throw new AccountException(ErrorCode.AMOUNT_EXCEED_BALANCE);
+        }
+        this.balance -= amount;
+    }
 
+    public void cancelBalance(Long amount) {
+        if (amount < 0) {
+            throw new AccountException(ErrorCode.INVALID_REQUEST);
+        }
+        this.balance += amount;
+    }
 }
