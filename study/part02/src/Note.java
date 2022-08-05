@@ -10,25 +10,25 @@ import java.util.stream.Stream;
 public class Note {
     public static void main(String[] args) {
 ////        ------------------------------------------------------------------------------------
-//        int a[] = {1, 2, 6, 7, 2};
-//        int b[] = {2, 44, 55, 2};
-//        int c[] = {2, 44, 511, 33};
-//
-//
-//        int originalArray[][] = new int[][]{a, b, c};
-//
-//        int[] flatArray = Arrays.stream(originalArray)
-//                .flatMapToInt(Arrays::stream)
-//                .toArray();
-//
-//        int[] flatArray1 = Stream.of(a, b, c)
-//                .flatMapToInt(Arrays::stream)
-//                .toArray();
-//
-//        Integer[] arrInteger = Arrays.stream(a).boxed().toArray(Integer[]::new);
-//        List<Integer> arrList = Arrays.stream(a).boxed().collect(Collectors.toList());
-//        Set<Integer> arrSet = Arrays.stream(a).boxed().collect(Collectors.toSet());
-//
+        int a[] = {1, 2, 6, 7, 2};
+        int b[] = {2, 44, 55, 2};
+        int c[] = {2, 44, 511, 33};
+
+
+        int originalArray[][] = new int[][]{a, b, c};
+
+        int[] flatArray = Arrays.stream(originalArray)
+                .flatMapToInt(Arrays::stream)
+                .toArray();
+
+        int[] flatArray1 = Stream.of(a, b, c)
+                .flatMapToInt(Arrays::stream)
+                .toArray();
+
+        Integer[] arrInteger = Arrays.stream(a).boxed().toArray(Integer[]::new);
+        List<Integer> arrList = Arrays.stream(a).boxed().collect(Collectors.toList());
+        Set<Integer> arrSet = Arrays.stream(a).boxed().collect(Collectors.toSet());
+
 //        System.out.println(Arrays.toString(flatArray));
 //        System.out.println(Arrays.toString(flatArray1));
 //
@@ -57,8 +57,11 @@ public class Note {
 ////        -------------------------------------------------------------------------------
 
 
-        System.out.println(LocalDateTime.now().toLocalDate() + " " + LocalDateTime.now().toLocalTime());
-        System.out.println(LocalDate.now() + " " + LocalTime.now().withNano(0));
+//        System.out.println(LocalDateTime.now().toLocalDate() + " " + LocalDateTime.now().toLocalTime());
+//        System.out.println(LocalDate.now() + " " + LocalTime.now().withNano(0));
+
+        String s = "01234";
+        System.out.println(s.substring(3));
 
     }
 
