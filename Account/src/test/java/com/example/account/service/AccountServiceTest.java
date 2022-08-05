@@ -19,6 +19,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
@@ -34,6 +35,9 @@ class AccountServiceTest {
 
     @Mock
     private AccountUserRepository accountUserRepository;
+
+    @Mock
+    private Random random;
 
     @InjectMocks
     private AccountService accountService;
@@ -55,6 +59,9 @@ class AccountServiceTest {
                 .willReturn(Account.builder()
                         .accountUser(accountUser)
                         .accountNumber("1000000015").build());
+
+        given(random.nextInt(10)).willReturn(1);
+
 
         ArgumentCaptor<Account> captor = ArgumentCaptor.forClass(Account.class);
 
@@ -125,8 +132,12 @@ class AccountServiceTest {
         ArgumentCaptor<Account> captor = ArgumentCaptor.forClass(Account.class);
 
         //when
+        given(random.nextInt(10)).willReturn(0);
         AccountDto accountDto = accountService.createAccount(1L, 10000L);
+
+        given(random.nextInt(10)).willReturn(1);
         AccountDto accountDto2 = accountService.createAccount(1L, 10000L);
+
         //then
         verify(accountRepository, times(2)).save(captor.capture());
 

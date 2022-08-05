@@ -10,15 +10,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-import static com.example.account.type.AccountStatus.*;
+import static com.example.account.type.AccountStatus.IN_USE;
+import static com.example.account.type.AccountStatus.UNREGISTERED;
 import static com.example.account.type.ErrorCode.*;
 
 @Service
@@ -26,6 +25,7 @@ import static com.example.account.type.ErrorCode.*;
 public class AccountService {
     private final AccountRepository accountRepository;
     private final AccountUserRepository accountUserRepository;
+    private final Random random;
 
     @Transactional
     public AccountDto createAccount(Long userId, Long initialBalance) {
@@ -49,9 +49,8 @@ public class AccountService {
                         .build()));
     }
 
-    private String getNewAccountNumber() {
+    String getNewAccountNumber() {
         StringBuilder newAccountNumber = new StringBuilder();
-        Random random = new Random();
         for (int i = 0; i < 10; i++) {
             newAccountNumber.append(random.nextInt(10));
         }

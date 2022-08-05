@@ -22,12 +22,12 @@ public class UserClient {
                         "conveniencePayService", ConveniencePayService.class);
 
         PayResponse payResponse = conveniencePayService.pay(
-                new PayRequest(PayMethodType.MONEY, ConvenienceType.G25, 50));
+                new PayRequest(PayMethodType.MONEY, ConvenienceType.G25, 1000));
         System.out.println(payResponse.toString());
 
-        System.out.println("____________________________________________");
+        System.out.println("==================================================");
         PayCancelResponse payCancelResponse = conveniencePayService.payCancel(
-                new PayCancelRequest(PayMethodType.CARD, ConvenienceType.G25, 100));
+                new PayCancelRequest(PayMethodType.CARD, ConvenienceType.G25, 3000));
         System.out.println(payCancelResponse.toString());
 
     }
