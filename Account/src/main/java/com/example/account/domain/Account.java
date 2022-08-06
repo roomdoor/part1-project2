@@ -18,10 +18,6 @@ import lombok.*;
 @Builder
 @Entity
 public class Account extends BaseEntity {
-    @Id
-    @GeneratedValue
-    private Long id;
-
     @ManyToOne
     private AccountUser accountUser;
     private String accountNumber;

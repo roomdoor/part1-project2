@@ -49,17 +49,17 @@ class TransactionServiceTest {
     public void test_01() {
         //given
         AccountUser accountUser = AccountUser.builder()
-                .id(1L)
                 .name("Pobi").build();
+        accountUser.setId(1L);
         given(accountUserRepository.findById(anyLong()))
                 .willReturn(Optional.of(accountUser));
 
         Account account = Account.builder()
-                .id(1L)
                 .accountStatus(IN_USE)
                 .accountNumber("1234512345")
                 .balance(10000L)
                 .build();
+        account.setId(1L);
         given(accountRepository.findByAccountNumber(anyString()))
                 .willReturn(Optional.of(account));
 
@@ -110,8 +110,8 @@ class TransactionServiceTest {
     public void test_03() {
         //given
         AccountUser accountUser = AccountUser.builder()
-                .id(1L)
                 .name("Pobi").build();
+        accountUser.setId(12L);
         given(accountUserRepository.findById(anyLong()))
                 .willReturn(Optional.of(accountUser));
         given(accountRepository.findByAccountNumber(anyString()))
@@ -130,11 +130,11 @@ class TransactionServiceTest {
     public void test_04() {
         //given
         AccountUser accountUser = AccountUser.builder()
-                .id(1L)
                 .name("Pobi").build();
+        accountUser.setId(1L);
         AccountUser accountUser1 = AccountUser.builder()
-                .id(2L)
                 .name("Bee").build();
+        accountUser.setId(2L);
         given(accountUserRepository.findById(anyLong()))
                 .willReturn(Optional.of(accountUser));
 
@@ -159,17 +159,17 @@ class TransactionServiceTest {
     public void test_05() {
         //given
         AccountUser accountUser = AccountUser.builder()
-                .id(1L)
                 .name("Pobi").build();
+        accountUser.setId(1L);
         given(accountUserRepository.findById(anyLong()))
                 .willReturn(Optional.of(accountUser));
 
         Account account = Account.builder()
-                .id(1L)
                 .accountStatus(UNREGISTERED)
                 .accountNumber("1234512345")
                 .balance(10000L)
                 .build();
+        account.setId(1L);
         given(accountRepository.findByAccountNumber(anyString()))
                 .willReturn(Optional.of(account));
 
@@ -186,17 +186,17 @@ class TransactionServiceTest {
     public void test_06() {
         //given
         AccountUser accountUser = AccountUser.builder()
-                .id(1L)
                 .name("Pobi").build();
+        accountUser.setId(1L);
         given(accountUserRepository.findById(anyLong()))
                 .willReturn(Optional.of(accountUser));
 
         Account account = Account.builder()
-                .id(1L)
                 .accountStatus(IN_USE)
                 .accountNumber("1234512345")
                 .balance(1000L)
                 .build();
+        account.setId(1L);
         given(accountRepository.findByAccountNumber(anyString()))
                 .willReturn(Optional.of(account));
 
@@ -213,16 +213,16 @@ class TransactionServiceTest {
     public void test_07() {
         //given
         AccountUser accountUser = AccountUser.builder()
-                .id(1L)
                 .name("Pobi").build();
+        accountUser.setId(12L);
 
         Account account = Account.builder()
-                .id(1L)
                 .accountUser(accountUser)
                 .accountStatus(IN_USE)
                 .accountNumber("1234512345")
                 .balance(10000L)
                 .build();
+        account.setId(12L);
         given(accountRepository.findByAccountNumber(anyString()))
                 .willReturn(Optional.of(account));
 
@@ -254,11 +254,11 @@ class TransactionServiceTest {
     public void test_08() {
         //given
         Account account = Account.builder()
-                .id(1L)
                 .accountStatus(IN_USE)
                 .accountNumber("1234512345")
                 .balance(10000L)
                 .build();
+        account.setId(1L);
 
         Transaction transaction = Transaction.builder()
                 .transactionId("transactionIdForCancelTest")
@@ -350,18 +350,18 @@ class TransactionServiceTest {
     public void test_11() {
         //given
         Account account = Account.builder()
-                .id(1L)
                 .accountStatus(IN_USE)
                 .accountNumber("1234512345")
                 .balance(10000L)
                 .build();
+        account.setId(1L);
 
         Account account1 = Account.builder()
-                .id(2L)
                 .accountStatus(IN_USE)
                 .accountNumber("1234512345")
                 .balance(10000L)
                 .build();
+        account1.setId(2L);
 
         Transaction transaction = Transaction.builder()
                 .transactionId("transactionIdForCancelTest")
@@ -390,11 +390,11 @@ class TransactionServiceTest {
     public void test_12() {
         //given
         Account account = Account.builder()
-                .id(1L)
                 .accountStatus(IN_USE)
                 .accountNumber("1234512345")
                 .balance(10000L)
                 .build();
+        account.setId(1L);
 
         Transaction transaction = Transaction.builder()
                 .transactionId("transactionIdForCancelTest")
@@ -425,7 +425,6 @@ class TransactionServiceTest {
         given(transactionRepository.findByTransactionId(anyString()))
                 .willReturn(Optional.of(Transaction.builder()
                         .account(Account.builder()
-                                .id(1L)
                                 .accountNumber("1234512345")
                                 .build())
                         .transactionType(USE)

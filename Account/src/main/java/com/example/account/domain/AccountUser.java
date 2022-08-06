@@ -15,9 +15,5 @@ import javax.persistence.Id;
 @Builder
 @Entity
 public class AccountUser extends BaseEntity{
-    @Id
-    @GeneratedValue
-    private Long id;
-
     private String name;
 }

@@ -47,8 +47,8 @@ class AccountServiceTest {
     public void test_01() {
         //given
         AccountUser accountUser = AccountUser.builder()
-                .id(12L)
                 .name("Pobi").build();
+        accountUser.setId(12L);
         given(accountUserRepository.findById(anyLong()))
                 .willReturn(Optional.of(accountUser));
 
@@ -79,8 +79,8 @@ class AccountServiceTest {
     public void test_02() {
         //given
         AccountUser accountUser = AccountUser.builder()
-                .id(12L)
                 .name("Pobi").build();
+        accountUser.setId(12L);
         given(accountUserRepository.findById(anyLong()))
                 .willReturn(Optional.empty());
 
@@ -97,8 +97,8 @@ class AccountServiceTest {
     public void test_03() {
         //given
         AccountUser accountUser = AccountUser.builder()
-                .id(12L)
                 .name("Pobi").build();
+        accountUser.setId(12L);
         given(accountUserRepository.findById(anyLong()))
                 .willReturn(Optional.of(accountUser));
         given(accountRepository.countByAccountUser(accountUser))
@@ -118,8 +118,8 @@ class AccountServiceTest {
     public void test_04() {
         //given
         AccountUser accountUser = AccountUser.builder()
-                .id(1L)
                 .name("Pobi").build();
+        accountUser.setId(1L);
         given(accountUserRepository.findById(anyLong()))
                 .willReturn(Optional.of(accountUser));
         given(accountRepository.findByAccountNumber(any()))
@@ -151,14 +151,13 @@ class AccountServiceTest {
     public void test_05() {
         //given
         AccountUser accountUser = AccountUser.builder()
-                .id(12L)
                 .name("Pobi").build();
+        accountUser.setId(12L);
         given(accountUserRepository.findById(anyLong()))
                 .willReturn(Optional.of(accountUser));
 
         given(accountRepository.findByAccountNumber(any()))
                 .willReturn(Optional.of(Account.builder()
-                        .id(12L)
                         .accountUser(accountUser)
                         .accountStatus(AccountStatus.IN_USE)
                         .accountNumber("1234567890")
@@ -183,8 +182,8 @@ class AccountServiceTest {
     public void test_06() {
         //given
         AccountUser accountUser = AccountUser.builder()
-                .id(12L)
                 .name("Pobi").build();
+        accountUser.setId(12L);
         given(accountUserRepository.findById(anyLong()))
                 .willReturn(Optional.empty());
 
@@ -201,17 +200,16 @@ class AccountServiceTest {
     public void test_07() {
         //given
         AccountUser accountUser = AccountUser.builder()
-                .id(12L)
                 .name("Pobi").build();
+        accountUser.setId(12L);
 
         given(accountUserRepository.findById(anyLong()))
                 .willReturn(Optional.of(accountUser));
 
         given(accountRepository.findByAccountNumber(any()))
                 .willReturn(Optional.of(Account.builder()
-                        .id(12L)
                         .accountUser(AccountUser.builder()
-                                .id(1L).build())
+                                .build())
                         .accountStatus(AccountStatus.UNREGISTERED)
                         .accountNumber("1234567890")
                         .balance(0L)
@@ -230,14 +228,13 @@ class AccountServiceTest {
     public void test_08() {
         //given
         AccountUser accountUser = AccountUser.builder()
-                .id(12L)
                 .name("Pobi").build();
+        accountUser.setId(12L);
         given(accountUserRepository.findById(anyLong()))
                 .willReturn(Optional.of(accountUser));
 
         given(accountRepository.findByAccountNumber(any()))
                 .willReturn(Optional.of(Account.builder()
-                        .id(12L)
                         .accountUser(accountUser)
                         .accountStatus(AccountStatus.UNREGISTERED)
                         .accountNumber("1234567890")
@@ -257,14 +254,12 @@ class AccountServiceTest {
     public void test_09() {
         //given
         AccountUser accountUser = AccountUser.builder()
-                .id(12L)
                 .name("Pobi").build();
         given(accountUserRepository.findById(anyLong()))
                 .willReturn(Optional.of(accountUser));
 
         given(accountRepository.findByAccountNumber(any()))
                 .willReturn(Optional.of(Account.builder()
-                        .id(12L)
                         .accountUser(accountUser)
                         .accountStatus(AccountStatus.IN_USE)
                         .accountNumber("1234567890")
@@ -284,26 +279,23 @@ class AccountServiceTest {
     public void test_10() {
         //given
         AccountUser accountUser = AccountUser.builder()
-                .id(12L)
                 .name("Pobi").build();
+        accountUser.setId(12L);
         given(accountUserRepository.findById(anyLong()))
                 .willReturn(Optional.of(accountUser));
 
         List<Account> list = new ArrayList<>();
         list.add(Account.builder()
-                .id(1L)
                 .accountUser(accountUser)
                 .accountNumber("09876554321")
                 .balance(1L)
                 .build());
         list.add(Account.builder()
-                .id(2L)
                 .accountUser(accountUser)
                 .accountNumber("1234567890")
                 .balance(1234L)
                 .build());
         list.add(Account.builder()
-                .id(3L)
                 .accountUser(accountUser)
                 .accountNumber("1234512345")
                 .balance(4321L)
@@ -324,8 +316,8 @@ class AccountServiceTest {
     public void test_11() {
         //given
         AccountUser accountUser = AccountUser.builder()
-                .id(12L)
                 .name("Pobi").build();
+        accountUser.setId(12L);
         given(accountUserRepository.findById(anyLong()))
                 .willReturn(Optional.empty());
 

@@ -15,10 +15,6 @@ import java.time.LocalDateTime;
 @Builder
 @Entity
 public class Transaction extends BaseEntity {
-    @Id
-    @GeneratedValue
-    private Long id;
-
     @Enumerated(EnumType.STRING)
     private TransactionType transactionType;
     @Enumerated(EnumType.STRING)
